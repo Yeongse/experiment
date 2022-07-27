@@ -1,0 +1,15 @@
+<form action="{% url 'flights:book' flight.id %}" method="POST">
+    {% csrf_token %}
+    <select name="choice">
+        <option value="A">A</option>
+        <option value="B">B</option>
+    </select>
+    <select name="score">
+        <option value=9>極めて優れている(9点)</option>
+        <option value=7>非常に優れている(7点)</option>
+        <option value=5>かなり優れている(5点)</option>
+        <option value=3>やや優れている(3点)</option>
+        <option value=1>同等に優れている(1点)</option>
+    </select>
+    <input type="submit">
+</form>
