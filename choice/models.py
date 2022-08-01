@@ -2,14 +2,14 @@ from django.db import models
 
 # Create your models here.
 class Subject(models.Model):
-    name = models.CharField()
+    name = models.CharField(max_length=8)
 
     def __str__(self):
         return self.name
 
 class Choice(models.Model):
     attribute_num = models.IntegerField()
-    choice = models.CharField()
+    choice = models.CharField(max_length=8)
     score = models.IntegerField()
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name="choices")
 
