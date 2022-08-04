@@ -1,6 +1,6 @@
 # Subject
 - name
-- choiceと多対多
+- choiceと一対多
 
 # Choice
 - attribute_num
