@@ -12,6 +12,7 @@ class Choice(models.Model):
     choice = models.CharField(max_length=8)
     score = models.IntegerField()
     ignore = models.CharField(max_length=255)
+    comment = models.TextField(null=True)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name="choices")
 
     def __str__(self):
@@ -28,6 +29,7 @@ class Weight(models.Model):
     dp = models.FloatField()
     disabled = models.FloatField()
     age = models.FloatField()
+    CI = models.FloatField()
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name="weight")
 
     def __str__(self):
@@ -35,13 +37,13 @@ class Weight(models.Model):
     
 class Player(models.Model):
     avg = models.FloatField()
-    hr = models.IntegerField()
-    sb = models.IntegerField()
+    hr = models.FloatField()
+    sb = models.FloatField()
     defense = models.FloatField()
-    rbi = models.IntegerField()
-    bb = models.IntegerField()
+    rbi = models.FloatField()
+    bb = models.FloatField()
     risp = models.FloatField()
-    dp = models.IntegerField()
+    dp = models.FloatField()
     disabled = models.FloatField()
     age = models.FloatField()
 

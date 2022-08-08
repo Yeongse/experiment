@@ -3,9 +3,11 @@
 
     <h2>Add data</h2>
 
-    <form action="{% url 'choice:make' %}" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="選手データを作成する">
-    </form>
+    <div class="make-wrapper">
+        <form action="{% url 'choice:make' %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="選手データを作成する" class="btn btn-primary">
+        </form>
+    </div>
 
 {% endblock %}

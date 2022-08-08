@@ -2,7 +2,12 @@
 {% block body %}
 
     <h2>説明2</h2>
-
-    <a href="{% url 'choice:compare'%}" class="btn btn-primary">一対比較を行う</a>
+    <div class="description-wrapper">
+        <p>60問もの設問にご回答頂き, 大変ありがとうございました. </p>
+        <p>続いて属性間一対比較を行って頂きます. </p>
+        <p>提示されている二つの属性について, 先ほどの選択課題の際に<b>どちらをどれほど重視したか</b>選択して下さい. </p>
+        <p>10属性に関する全45通りの組み合わせについて, 回答をして下さい. </p>
+        <a href="{% url 'choice:compare'%}" class="btn btn-primary">一対比較を行う</a>
+    </div>
 
 {% endblock %}

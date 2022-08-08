@@ -30,15 +30,15 @@ pairs = [
 ]
 values = {
     "avg": [round(0.216+(0.002*i), 3) for i in range(50)],
-    "hr": [i for i in range(50)], 
-    "sb": [i for i in range(50)], 
+    "hr": [round(3.4+(0.4*i), 1) for i in range(50)], 
+    "sb": [round(0.8+(0.8*i), 1) for i in range(50)], 
     "defense": [round(35.3+(0.6*i), 1) for i in range(50)], 
-    "rbi": [2+(2*i) for i in range(50)], 
-    "bb": [31+i for i in range(50)], 
+    "rbi": [round(20.3+(1.3*i), 1) for i in range(50)], 
+    "bb": [round(11.2+(1.2*i), 1) for i in range(50)], 
     "risp": [round(0.162+(0.004*i), 3) for i in range(50)], 
-    "dp": [1+i for i in range(50)], 
+    "dp": [round(0.7+(0.7*i), 1) for i in range(50)], 
     "disabled": [round(5.2+(0.4*i), 1) for i in range(50)], 
-    "age": [round(18.5+(0.5*i), 1) for i in range(50)]
+    "age": [round(20.5+(0.5*i), 1) for i in range(50)]
 }
 
 # question_index: 0~59
@@ -70,6 +70,14 @@ def get_weight(_evaluate_matrix):
     weights = [gmeans[i]/gmean_sum for i in range(element_num)]
     return weights
 
+def get_CI(_evaluate_matrix):
+  from scipy.linalg import eig
+  value, vector = eig(_evaluate_matrix)
+  max_lambda = max(value).real
+  CI = (max_lambda-len(_evaluate_matrix)) / (len(_evaluate_matrix)-1)
+  return CI
+
+
 # register subject's name
 def index(request):
     if request.method =="POST":
@@ -89,12 +97,14 @@ def description2(request):
 
 # main function
 def task(request, question_index):
-    subject = Subject.objects.get(name=request.session["name"])
+    subjects = Subject.objects.filter(name=request.session["name"])
+    if len(subjects) == 1:
+        subject = subjects[0]
     situation_index = get_situation_index(question_index)
     attribute_num = 4+2*situation_index
     if request.method == "POST":
         answered_choice = request.POST["choice"]
-        answered_score = request.POST["score"]
+        answered_score = int(request.POST["score"])
         answered_ignore = request.POST["ignore"]
         choice = Choice(
             attribute_num=attribute_num, 
@@ -114,6 +124,7 @@ def task(request, question_index):
     players = Player.objects.all()
     return render(request, "choice/task.html", {
         "question_index": question_index, 
+        "question_index_p1": question_index+1, 
         "situation_index": situation_index, 
         "alternative_A": players[player_index_A], 
         "alternative_B": players[player_index_B]
@@ -121,134 +132,136 @@ def task(request, question_index):
 
 
 def compare(request):
-    subject = Subject.objects.get(name=request.session["name"])
+    subjects = Subject.objects.filter(name=request.session["name"])
+    if len(subjects) == 1:
+        subject = subjects[0]
     if request.method == "POST":
         choices_1 = [
-            request.POST["choice-1-1"], 
-            request.POST["choice-1-2"],
-            request.POST["choice-1-3"],
-            request.POST["choice-1-4"],
-            request.POST["choice-1-5"],
-            request.POST["choice-1-6"],
-            request.POST["choice-1-7"],
-            request.POST["choice-1-8"],
-            request.POST["choice-1-9"]
+            int(request.POST["choice-1-1"]), 
+            int(request.POST["choice-1-2"]),
+            int(request.POST["choice-1-3"]),
+            int(request.POST["choice-1-4"]),
+            int(request.POST["choice-1-5"]),
+            int(request.POST["choice-1-6"]),
+            int(request.POST["choice-1-7"]),
+            int(request.POST["choice-1-8"]),
+            int(request.POST["choice-1-9"])
             ]
         choices_2 = [
-            request.POST["choice-2-1"], 
-            request.POST["choice-2-2"],
-            request.POST["choice-2-3"],
-            request.POST["choice-2-4"],
-            request.POST["choice-2-5"],
-            request.POST["choice-2-6"],
-            request.POST["choice-2-7"],
-            request.POST["choice-2-8"]
+            int(request.POST["choice-2-1"]), 
+            int(request.POST["choice-2-2"]),
+            int(request.POST["choice-2-3"]),
+            int(request.POST["choice-2-4"]),
+            int(request.POST["choice-2-5"]),
+            int(request.POST["choice-2-6"]),
+            int(request.POST["choice-2-7"]),
+            int(request.POST["choice-2-8"])
             ]
         choices_3 = [
-            request.POST["choice-3-1"], 
-            request.POST["choice-3-2"],
-            request.POST["choice-3-3"],
-            request.POST["choice-3-4"],
-            request.POST["choice-3-5"],
-            request.POST["choice-3-6"],
-            request.POST["choice-3-7"]
+            int(request.POST["choice-3-1"]), 
+            int(request.POST["choice-3-2"]),
+            int(request.POST["choice-3-3"]),
+            int(request.POST["choice-3-4"]),
+            int(request.POST["choice-3-5"]),
+            int(request.POST["choice-3-6"]),
+            int(request.POST["choice-3-7"])
             ]
         choices_4 = [
-            request.POST["choice-4-1"], 
-            request.POST["choice-4-2"],
-            request.POST["choice-4-3"],
-            request.POST["choice-4-4"],
-            request.POST["choice-4-5"],
-            request.POST["choice-4-6"]
+            int(request.POST["choice-4-1"]), 
+            int(request.POST["choice-4-2"]),
+            int(request.POST["choice-4-3"]),
+            int(request.POST["choice-4-4"]),
+            int(request.POST["choice-4-5"]),
+            int(request.POST["choice-4-6"])
             ]
         choices_5 = [
-            request.POST["choice-5-1"], 
-            request.POST["choice-5-2"],
-            request.POST["choice-5-3"],
-            request.POST["choice-5-4"],
-            request.POST["choice-5-5"]
+            int(request.POST["choice-5-1"]), 
+            int(request.POST["choice-5-2"]),
+            int(request.POST["choice-5-3"]),
+            int(request.POST["choice-5-4"]),
+            int(request.POST["choice-5-5"])
             ]
         choices_6 = [
-            request.POST["choice-6-1"], 
-            request.POST["choice-6-2"],
-            request.POST["choice-6-3"],
-            request.POST["choice-6-4"]
+            int(request.POST["choice-6-1"]), 
+            int(request.POST["choice-6-2"]),
+            int(request.POST["choice-6-3"]),
+            int(request.POST["choice-6-4"])
             ]
         choices_7 = [
-            request.POST["choice-7-1"], 
-            request.POST["choice-7-2"],
-            request.POST["choice-7-3"]
+            int(request.POST["choice-7-1"]), 
+            int(request.POST["choice-7-2"]),
+            int(request.POST["choice-7-3"])
             ]
         choices_8 = [
-            request.POST["choice-8-1"], 
-            request.POST["choice-8-2"]
+            int(request.POST["choice-8-1"]), 
+            int(request.POST["choice-8-2"])
             ]
         choices_9 = [
-            request.POST["choice-9-1"]
+            int(request.POST["choice-9-1"])
             ]
         
         scores_1 = [
-            request.POST["score-1-1"], 
-            request.POST["score-1-2"],
-            request.POST["score-1-3"],
-            request.POST["score-1-4"],
-            request.POST["score-1-5"],
-            request.POST["score-1-6"],
-            request.POST["score-1-7"],
-            request.POST["score-1-8"],
-            request.POST["score-1-9"]
+            int(request.POST["score-1-1"]), 
+            int(request.POST["score-1-2"]),
+            int(request.POST["score-1-3"]),
+            int(request.POST["score-1-4"]),
+            int(request.POST["score-1-5"]),
+            int(request.POST["score-1-6"]),
+            int(request.POST["score-1-7"]),
+            int(request.POST["score-1-8"]),
+            int(request.POST["score-1-9"])
             ]
         scores_2 = [
-            request.POST["score-2-1"], 
-            request.POST["score-2-2"],
-            request.POST["score-2-3"],
-            request.POST["score-2-4"],
-            request.POST["score-2-5"],
-            request.POST["score-2-6"],
-            request.POST["score-2-7"],
-            request.POST["score-2-8"]
+            int(request.POST["score-2-1"]), 
+            int(request.POST["score-2-2"]),
+            int(request.POST["score-2-3"]),
+            int(request.POST["score-2-4"]),
+            int(request.POST["score-2-5"]),
+            int(request.POST["score-2-6"]),
+            int(request.POST["score-2-7"]),
+            int(request.POST["score-2-8"])
             ]
         scores_3 = [
-            request.POST["score-3-1"], 
-            request.POST["score-3-2"],
-            request.POST["score-3-3"],
-            request.POST["score-3-4"],
-            request.POST["score-3-5"],
-            request.POST["score-3-6"],
-            request.POST["score-3-7"]
+            int(request.POST["score-3-1"]), 
+            int(request.POST["score-3-2"]),
+            int(request.POST["score-3-3"]),
+            int(request.POST["score-3-4"]),
+            int(request.POST["score-3-5"]),
+            int(request.POST["score-3-6"]),
+            int(request.POST["score-3-7"])
             ]
         scores_4 = [
-            request.POST["score-4-1"], 
-            request.POST["score-4-2"],
-            request.POST["score-4-3"],
-            request.POST["score-4-4"],
-            request.POST["score-4-5"],
-            request.POST["score-4-6"]
+            int(request.POST["score-4-1"]), 
+            int(request.POST["score-4-2"]),
+            int(request.POST["score-4-3"]),
+            int(request.POST["score-4-4"]),
+            int(request.POST["score-4-5"]),
+            int(request.POST["score-4-6"])
             ]
         scores_5 = [
-            request.POST["score-5-1"], 
-            request.POST["score-5-2"],
-            request.POST["score-5-3"],
-            request.POST["score-5-4"],
-            request.POST["score-5-5"]
+            int(request.POST["score-5-1"]), 
+            int(request.POST["score-5-2"]),
+            int(request.POST["score-5-3"]),
+            int(request.POST["score-5-4"]),
+            int(request.POST["score-5-5"])
             ]
         scores_6 = [
-            request.POST["score-6-1"], 
-            request.POST["score-6-2"],
-            request.POST["score-6-3"],
-            request.POST["score-6-4"]
+            int(request.POST["score-6-1"]), 
+            int(request.POST["score-6-2"]),
+            int(request.POST["score-6-3"]),
+            int(request.POST["score-6-4"])
             ]
         scores_7 = [
-            request.POST["score-7-1"], 
-            request.POST["score-7-2"],
-            request.POST["score-7-3"]
+            int(request.POST["score-7-1"]), 
+            int(request.POST["score-7-2"]),
+            int(request.POST["score-7-3"])
             ]
         scores_8 = [
-            request.POST["score-8-1"], 
-            request.POST["score-8-2"]
+            int(request.POST["score-8-1"]), 
+            int(request.POST["score-8-2"])
             ]
         scores_9 = [
-            request.POST["score-9-1"]
+            int(request.POST["score-9-1"])
             ]
 
         choices = [choices_1, choices_2, choices_3, choices_4, choices_5, choices_6, choices_7, choices_8, choices_9]
@@ -256,6 +269,7 @@ def compare(request):
         
         evaluate_matrix = get_evaluate_matrix(choices, scores)
         weights = get_weight(evaluate_matrix)
+        CI = get_CI(evaluate_matrix)
         weight = Weight(
             avg=weights[0], 
             hr=weights[1], 
@@ -267,6 +281,7 @@ def compare(request):
             dp=weights[7], 
             disabled=weights[8], 
             age=weights[9], 
+            CI=CI, 
             subject=subject
         )
         weight.save()

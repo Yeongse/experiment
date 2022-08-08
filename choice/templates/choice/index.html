@@ -2,11 +2,17 @@
 {% block body %}
 
     <h2>名前の登録</h2>
+    <div class="description-wrapper">
+        <p>本実験は二つのパートから成っています. </p>
+        <p>一つ目は提示される選択肢の中で魅力的なものを選択してもらうパートで, 二つ目は提示された情報の重要度に関する比較を行ってもらうパートです. </p>
+        <p>少しお時間を頂きますがご容赦ください. まずは以下の欄に自分の名前を記入し, 送信して下さい. </p>
+    </div>
 
-    <form action="{% url 'choice:index' %}" method="POST">
-        {% csrf_token %}
-        <input type="text" name="name">
-        <input type="submit">
-    </form>
-
+    <div class="index-wrapper">
+        <form action="{% url 'choice:index' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="name" class="form-control">
+            <input type="submit" class="need-top-margin">
+        </form>
+    </div>
 {% endblock %}

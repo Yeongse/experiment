@@ -1,0 +1,88 @@
+/* used for almost all pages */
+.header {
+    text-align: center;
+    background-color:saddlebrown;
+    color: white;
+    margin-bottom: 5px;
+    border:solid thin black;
+    border-radius: 3px;
+}
+h2 {
+    text-align: center;
+    margin-bottom: 5px;
+    border-bottom: solid thin black;
+}
+form {
+    width: 60vw;
+    margin: auto;
+    padding: auto;
+}
+select {
+    margin: 5px;
+}
+.need-top-margin {
+    margin-top: 7px;
+    margin-bottom: 7px;
+}
+
+/* used for description1, 2, index, final message */
+.description-wrapper {
+    margin: auto;
+    width: 60vw;
+}
+.index-wrapper {
+    display: flex;
+}
+.make-wrapper {
+    width: 30vw;
+    margin: auto;
+    padding: auto;
+    text-align: center;
+}
+.make-wrapper form {
+    width: auto;
+    padding: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+.final-message {
+    width: 50vw;
+    text-align: center;
+    padding: auto;
+    margin: auto;
+}
+
+/* used for task */
+.complement-wrapper {
+    padding-left: 10px;
+    margin-bottom: 5px;
+    border-bottom: solid thin black;
+    font-size: 9pt;
+}
+.complement-wrapper p {
+    margin-bottom: 2px;
+}
+.question-wrapper {
+    width: 60vw;
+    margin-left:auto;
+    margin-right:auto;
+    display: flex;
+}
+.alternative-wrapper {
+    width: 25vw;
+    margin: auto;
+    padding: auto;
+}
+
+
+/* used for compare */
+.compare-unit {
+    display: flex;
+}
+
+.compare-wrapper {
+    border:solid thin black;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    padding: 5px;
+}
