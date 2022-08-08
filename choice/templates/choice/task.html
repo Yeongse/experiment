@@ -1,0 +1,199 @@
+{% extends "choice/layout.html" %}
+
+{% block head %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ignore_select = document.getElementById('ignore-options');
+            var ignore_text = "";
+            ignore_select.addEventListener('change', function() {
+                ignore_text = "";
+                var options = ignore_select.options;
+                for (var i=0,l=options.length; l>i; i++){
+                    if (options[i].selected){
+                        ignore_text += options[i].value;
+                        ignore_text += ", ";
+                    }
+                }
+                ignore_text = ignore_text.slice(0, -2);
+                document.getElementById("ignore-text").value = ignore_text;
+            })
+        })
+    </script>
+{% endblock  %}
+
+
+{% block body %}
+    {% comment %} 提示情報部分 {% endcomment %}
+    <div class="alternative-wrapper">
+    <h4>選択肢A</h4>
+    <table>
+        <thead>
+            <tr>
+                <td>属性名</td>
+                <td>値</td>
+            <tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>打率</td>
+                <td>{{ alternative_A.avg }}</td>
+            <tr>
+                <td>本塁打数</td>
+                <td>{{ alternative_A.hr }}</td>
+            </tr>
+            <tr>
+                <td>盗塁数</td>
+                <td>{{ alternative_A.sb }}</td>
+            </tr>
+            <tr>
+                <td>守備力</td>
+                <td>{{ alternative_A.defense }}</td>
+            </tr>
+
+            {% if situation_index > 0 %}
+            <tr>
+                <td>打点</td>
+                <td>{{ alternative_A.rbi }}</td>
+            </tr>
+            <tr>
+                <td>四球数</td>
+                <td>{{ alternative_A.bb }}</td>
+            </tr>
+            {% endif %}
+
+            {% if situation_index > 1 %}
+            <tr>
+                <td>得点圏打率</td>
+                <td>{{ alternative_A.risp }}</td>
+            </tr>
+            <tr>
+                <td>併殺打数</td>
+                <td>{{ alternative_A.dp }}</td>
+            </tr>
+            {% endif %}
+
+            {% if situation_index > 2 %}
+            <tr>
+                <td>離脱試合数</td>
+                <td>{{ alternative_A.disabled }}</td>
+            </tr>
+            <tr>
+                <td>年齢</td>
+                <td>{{ alternative_A.age }}</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    </div>
+
+    <div class="alternative-wrapper">
+        <h4>選択肢B</h4>
+        <table>
+            <thead>
+                <tr>
+                    <td>属性名</td>
+                    <td>値</td>
+                <tr>
+            </thead>
+    
+            <tbody>
+                <tr>
+                    <td>打率</td>
+                    <td>{{ alternative_B.avg }}</td>
+                <tr>
+                    <td>本塁打数</td>
+                    <td>{{ alternative_B.hr }}</td>
+                </tr>
+                <tr>
+                    <td>盗塁数</td>
+                    <td>{{ alternative_B.sb }}</td>
+                </tr>
+                <tr>
+                    <td>守備力</td>
+                    <td>{{ alternative_B.defense }}</td>
+                </tr>
+    
+                {% if situation_index > 0 %}
+                <tr>
+                    <td>打点</td>
+                    <td>{{ alternative_B.rbi }}</td>
+                </tr>
+                <tr>
+                    <td>四球数</td>
+                    <td>{{ alternative_B.bb }}</td>
+                </tr>
+                {% endif %}
+    
+                {% if situation_index > 1 %}
+                <tr>
+                    <td>得点圏打率</td>
+                    <td>{{ alternative_B.risp }}</td>
+                </tr>
+                <tr>
+                    <td>併殺打数</td>
+                    <td>{{ alternative_B.dp }}</td>
+                </tr>
+                {% endif %}
+    
+                {% if situation_index > 2 %}
+                <tr>
+                    <td>離脱試合数</td>
+                    <td>{{ alternative_B.disabled }}</td>
+                </tr>
+                <tr>
+                    <td>年齢</td>
+                    <td>{{ alternative_B.age }}</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        </div>
+
+    
+    {% comment %} 回答部分 {% endcomment %}
+    <form id="answer" action="{% url 'choice:task' question_index %}" method="POST">
+        {% csrf_token %}
+        <label for="choice">どちらが良いですか？</label>
+        <select name="choice" id="choice">
+            <option value="A">A</option>
+            <option value="B">B</option>
+        </select>
+
+        <label for="score">どれくらい良いですか？</label>
+        <select name="score" id="score">
+            <option value=9>極めて優れている(9点)</option>
+            <option value=7>非常に優れている(7点)</option>
+            <option value=5>かなり優れている(5点)</option>
+            <option value=3>やや優れている(3点)</option>
+            <option value=1>同等に優れている(1点)</option>
+        </select>
+
+        <label for="ignore">無視した属性はありますか？(ある場合のみ選択してください)</label>
+        <select name="ignore-options" multiple required=False id="ignore-options">
+            <option value="打率">打率</option>
+            <option value="本塁打">本塁打</option>
+            <option value="盗塁数">盗塁数</option>
+            <option value="守備力">守備力</option>
+
+            {% if situation_index > 0 %}
+            <option value="打点">打点</option>
+            <option value="四球数">四球数</option>
+            {% endif %}
+
+            {% if situation_index > 1 %}
+            <option value="得点圏打率">得点圏打率</option>
+            <option value="併殺打数">併殺打数</option>
+            {% endif %}
+
+            {% if situation_index > 2 %}
+            <option value="離脱試合数">離脱試合数</option>
+            <option value="年齢">年齢</option>
+            {% endif %}
+
+        </select>
+        <input type="hidden" name="ignore" value="abc" id="ignore-text">
+        <input type="submit">
+    </form>
+
+{% endblock %}

@@ -1,0 +1,641 @@
+{% extends "choice/layout.html" %}
+{% block body %}
+
+    <h2>属性間の一対比較</h2>
+
+    <form action="{% url 'choice:compare' %}" method="POST">
+        {% csrf_token %}
+        <div class="compare-unit">
+            <select name="choice-1-1">
+                <option value="1">打率</option>
+                <option value="-1">本塁打数</option>
+            </select>
+            <select name="score-1-1">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-1-2">
+                <option value="1">打率</option>
+                <option value="-1">盗塁数</option>
+            </select>
+            <select name="score-1-2">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-1-3">
+                <option value="1">打率</option>
+                <option value="-1">守備力</option>
+            </select>
+            <select name="score-1-3">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-1-4">
+                <option value="1">打率</option>
+                <option value="-1">打点</option>
+            </select>
+            <select name="score-1-4">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-1-5">
+                <option value="1">打率</option>
+                <option value="-1">四球数</option>
+            </select>
+            <select name="score-1-5">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-1-6">
+                <option value="1">打率</option>
+                <option value="-1">得点圏打率</option>
+            </select>
+            <select name="score-1-6">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-1-7">
+                <option value="1">打率</option>
+                <option value="-1">併殺打数</option>
+            </select>
+            <select name="score-1-7">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-1-8">
+                <option value="1">打率</option>
+                <option value="-1">離脱試合数</option>
+            </select>
+            <select name="score-1-8">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-1-9">
+                <option value="1">打率</option>
+                <option value="-1">年齢</option>
+            </select>
+            <select name="score-1-9">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-2-1">
+                <option value="1">本塁打数</option>
+                <option value="-1">盗塁数</option>
+            </select>
+            <select name="score-2-1">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-2-2">
+                <option value="1">本塁打数</option>
+                <option value="-1">守備力</option>
+            </select>
+            <select name="score-2-2">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-2-3">
+                <option value="1">本塁打数</option>
+                <option value="-1">打点</option>
+            </select>
+            <select name="score-2-3">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-2-4">
+                <option value="1">本塁打数</option>
+                <option value="-1">四球数</option>
+            </select>
+            <select name="score-2-4">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-2-5">
+                <option value="1">本塁打数</option>
+                <option value="-1">得点圏打率</option>
+            </select>
+            <select name="score-2-5">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-2-6">
+                <option value="1">本塁打数</option>
+                <option value="-1">併殺打数</option>
+            </select>
+            <select name="score-2-6">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-2-7">
+                <option value="1">本塁打数</option>
+                <option value="-1">離脱試合数</option>
+            </select>
+            <select name="score-2-7">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-2-8">
+                <option value="1">本塁打数</option>
+                <option value="-1">年齢</option>
+            </select>
+            <select name="score-2-8">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-3-1">
+                <option value="1">盗塁数</option>
+                <option value="-1">守備力</option>
+            </select>
+            <select name="score-3-1">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-3-2">
+                <option value="1">盗塁数</option>
+                <option value="-1">打点</option>
+            </select>
+            <select name="score-3-2">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-3-3">
+                <option value="1">盗塁数</option>
+                <option value="-1">四球数</option>
+            </select>
+            <select name="score-3-3">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-3-4">
+                <option value="1">盗塁数</option>
+                <option value="-1">得点圏打率</option>
+            </select>
+            <select name="score-3-4">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-3-5">
+                <option value="1">盗塁数</option>
+                <option value="-1">併殺打数</option>
+            </select>
+            <select name="score-3-5">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-3-6">
+                <option value="1">盗塁数</option>
+                <option value="-1">離脱試合数</option>
+            </select>
+            <select name="score-3-6">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-3-7">
+                <option value="1">盗塁数</option>
+                <option value="-1">年齢</option>
+            </select>
+            <select name="score-3-7">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-4-1">
+                <option value="1">守備力</option>
+                <option value="-1">打点</option>
+            </select>
+            <select name="score-4-1">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-4-2">
+                <option value="1">守備力</option>
+                <option value="-1">四球数</option>
+            </select>
+            <select name="score-4-2">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-4-3">
+                <option value="1">守備力</option>
+                <option value="-1">得点圏打率</option>
+            </select>
+            <select name="score-4-3">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-4-4">
+                <option value="1">守備力</option>
+                <option value="-1">併殺打数</option>
+            </select>
+            <select name="score-4-4">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-4-5">
+                <option value="1">守備力</option>
+                <option value="-1">離脱試合数</option>
+            </select>
+            <select name="score-4-5">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-4-6">
+                <option value="1">守備力</option>
+                <option value="-1">年齢</option>
+            </select>
+            <select name="score-4-6">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-5-1">
+                <option value="1">打点</option>
+                <option value="-1">四球数</option>
+            </select>
+            <select name="score-5-1">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-5-2">
+                <option value="1">打点</option>
+                <option value="-1">得点圏打率</option>
+            </select>
+            <select name="score-5-2">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-5-3">
+                <option value="1">打点</option>
+                <option value="-1">併殺打数</option>
+            </select>
+            <select name="score-5-3">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-5-4">
+                <option value="1">打点</option>
+                <option value="-1">離脱試合数</option>
+            </select>
+            <select name="score-5-4">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-5-5">
+                <option value="1">打点</option>
+                <option value="-1">年齢</option>
+            </select>
+            <select name="score-5-5">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-6-1">
+                <option value="1">四球数</option>
+                <option value="-1">得点圏打率</option>
+            </select>
+            <select name="score-6-1">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-6-2">
+                <option value="1">四球数</option>
+                <option value="-1">併殺打数</option>
+            </select>
+            <select name="score-6-2">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-6-3">
+                <option value="1">四球数</option>
+                <option value="-1">離脱試合数</option>
+            </select>
+            <select name="score-6-3">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-6-4">
+                <option value="1">四球数</option>
+                <option value="-1">年齢</option>
+            </select>
+            <select name="score-6-4">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-7-1">
+                <option value="1">得点圏打率</option>
+                <option value="-1">併殺打数</option>
+            </select>
+            <select name="score-7-1">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-7-2">
+                <option value="1">得点圏打率</option>
+                <option value="-1">離脱試合数</option>
+            </select>
+            <select name="score-7-2">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-7-3">
+                <option value="1">得点圏打率</option>
+                <option value="-1">年齢</option>
+            </select>
+            <select name="score-7-3">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-8-1">
+                <option value="1">併殺打数</option>
+                <option value="-1">離脱試合数</option>
+            </select>
+            <select name="score-8-1">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-8-2">
+                <option value="1">併殺打数</option>
+                <option value="-1">年齢</option>
+            </select>
+            <select name="score-8-2">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <div class="compare-unit">
+            <select name="choice-9-1">
+                <option value="1">離脱試合数</option>
+                <option value="-1">年齢</option>
+            </select>
+            <select name="score-9-1">
+                <option value=9>極めて重視する(9点)</option>
+                <option value=7>非常に重視する(7点)</option>
+                <option value=5>かなり重視する(5点)</option>
+                <option value=3>やや重視する(3点)</option>
+                <option value=1>同等に重視する(1点)</option>
+            </select>
+        </div>
+
+        <input type="submit">
+    </form>
+
+{% endblock %}

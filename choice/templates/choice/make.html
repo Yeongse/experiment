@@ -1,35 +1,11 @@
-{% extends "flights/layout.html" %}
+{% extends "choice/layout.html" %}
 {% block body %}
-    <h1>Flight {{ flight.id }}</h1>
 
-    <ul>
-        <li>Origin: {{ flight.origin }}</li>
-        <li>Destination: {{ flight.destination }}</li>
-        <li>Durartion: {{ flight.duration }}</li>
-    </ul>
+    <h2>Add data</h2>
 
-    <h2>Passengers</h2>
-
-    <ul>
-        {% for passenger in passengers %}
-        <li>{{ passenger }}</li>
-        {% empty %}
-        <li>No Passengers. </li>
-        {% endfor %}
-    </ul>
-
-    <h2>Add Passenger</h2>
-
-    <form action="{% url 'flights:book' flight.id %}" method="POST">
+    <form action="{% url 'choice:make' %}" method="POST">
         {% csrf_token %}
-        <select name="passenger">
-            {% for passenger in non_passengers %}
-                <option value="{{ passenger.id }}">{{ passenger }}</option>
-            {% endfor %}
-        </select>
-        <input type="submit">
+        <input type="submit" value="選手データを作成する">
     </form>
-
-    <a href="{% url 'flights:index' %}">Back To Flight List</a>
 
 {% endblock %}
