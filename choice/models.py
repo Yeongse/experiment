@@ -16,7 +16,7 @@ class Choice(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name="choices")
 
     def __str__(self):
-        return f"{self.attribute_num}属性,  {self.choice}: {self.score}"
+        return f"{self.attribute_num}属性,  {self.score}点, {self.ignore}"
 
 class Weight(models.Model):
     avg = models.FloatField()
@@ -33,7 +33,7 @@ class Weight(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name="weight")
 
     def __str__(self):
-        return f"打率: {self.avg}, ホームラン: {self.hr}"
+        return f"CI: {self.CI}"
     
 class Player(models.Model):
     avg = models.FloatField()
