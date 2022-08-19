@@ -133,6 +133,7 @@ def task(request, question_index):
 
 def compare(request):
     subjects = Subject.objects.filter(name=request.session["name"])
+    subject = Subject.objects.filter(name="熊谷太志")
     if len(subjects) == 1:
         subject = subjects[0]
     if request.method == "POST":
