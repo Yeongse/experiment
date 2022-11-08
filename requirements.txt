@@ -1,3 +1,7 @@
--r requirements-dev.txt
-gunicorn
-psycopg2
+Django==4.0.4
+django-bootstrap4==22.2
+django-crispy-forms==1.14.0
+django-environ==0.9.0
+django-filter==22.1
+numpy==1.19.5
+scipy==1.9.3
