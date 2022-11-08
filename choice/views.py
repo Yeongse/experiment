@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.conf import settings
 
-from .models import Subject, Choice, Player, Weight
+from .models import Subject, Choice, Player, Weight, Preference
 
 import datetime
 # Create your views here.
@@ -94,6 +94,8 @@ def description1(request):
     return render(request, "choice/description1.html", {})
 def description2(request):
     return render(request, "choice/description2.html", {})
+def description3(request):
+    return render(request, "choice/description3.html", {})
 
 # main function
 def task(request, question_index):
@@ -133,9 +135,7 @@ def task(request, question_index):
 
 def compare(request):
     subjects = Subject.objects.filter(name=request.session["name"])
-    subject = Subject.objects.filter(name="熊谷太志")
-    if len(subjects) == 1:
-        subject = subjects[0]
+    subject = subjects[0]
     if request.method == "POST":
         choices_1 = [
             int(request.POST["choice-1-1"]), 
@@ -286,33 +286,173 @@ def compare(request):
             subject=subject
         )
         weight.save()
-        return HttpResponseRedirect(reverse("choice:finish"))
+        return HttpResponseRedirect(reverse("choice:description3"))
 
     return render(request, "choice/compare.html", {})
+
+def preference(request):
+    subjects = Subject.objects.filter(name=request.session["name"])
+    subject = subjects[0]
+    if request.method == "POST":
+        choices_1 = [
+            int(request.POST["choice-1-1"]), 
+            int(request.POST["choice-1-2"]),
+            int(request.POST["choice-1-3"])
+            ]
+        choices_2 = [
+            int(request.POST["choice-2-1"]), 
+            int(request.POST["choice-2-2"])
+            ]
+        choices_3 = [
+            int(request.POST["choice-3-1"])
+            ]
+        
+        scores_1 = [
+            int(request.POST["score-1-1"]), 
+            int(request.POST["score-1-2"]),
+            int(request.POST["score-1-3"])
+            ]
+        scores_2 = [
+            int(request.POST["score-2-1"]), 
+            int(request.POST["score-2-2"])
+            ]
+        scores_3 = [
+            int(request.POST["score-3-1"])
+            ]
+
+        choices = [choices_1, choices_2, choices_3]
+        scores = [scores_1, scores_2, scores_3]
+        
+        evaluate_matrix = get_evaluate_matrix(choices, scores)
+        preferences = get_weight(evaluate_matrix)
+        CI = get_CI(evaluate_matrix)
+        preference = Preference(
+            four=preferences[0], 
+            six=preferences[1], 
+            eight=preferences[2], 
+            ten=preferences[3], 
+            CI=CI, 
+            subject=subject
+        )
+        preference.save()
+        return HttpResponseRedirect(reverse("choice:finish"))
+
+    return render(request, "choice/preference.html", {})
 
 def finish(request):
     return render(request, "choice/finish.html", {})
 
 # make all profiles
 def make(request):
+    four = {
+        'avg': [0.26, 0.226, 0.276, 0.3, 0.22, 0.222], 
+        'hr': [12.6, 14.2, 15, 23, 8.2, 14.6], 
+        'sb': [7.2, 24, 36, 36.8, 37.6, 3.2], 
+        'defense': [58.1, 46.1, 36.5, 36.5, 64.7, 62.9], 
+        'rbi': [59.3, 54.1, 68.4, 51.5, 73.6, 42.4], 
+        'bb': [14.8, 23.2, 22, 62.8, 29.2, 58], 
+        'risp': [0.214, 0.33, 0.21, 0.206, 0.166, 0.314], 
+        'dp': [35, 32.9, 3.5, 18.9, 16.1, 19.6], 
+        'disabled': [14, 23.2, 8, 20, 24.4, 6.8], 
+        'age': [31, 40.5, 38, 39.5, 29.5, 41]
+    }
+    six = {
+        'avg': [0.312, 0.302, 0.294, 0.306, 0.224, 0.286], 
+        'hr': [13.4, 9.4, 21, 22.2, 9.8, 10.6], 
+        'sb': [21.6, 34.4, 16, 36, 11.2, 40], 
+        'defense': [52.7, 41.3, 54.5, 53.9, 56.9, 38.9], 
+        'rbi': [41.1, 47.6, 35.9, 77.5, 59.3, 20.3], 
+        'bb': [22, 24.4, 70, 28, 58, 14.8], 
+        'risp': [0.214, 0.33, 0.21, 0.206, 0.166, 0.314], 
+        'dp': [35, 32.9, 3.5, 18.9, 16.1, 19.6], 
+        'disabled': [14, 23.2, 8, 20, 24.4, 6.8], 
+        'age': [31, 40.5, 38, 39.5, 29.5, 41]
+    }
+    eight = {
+        'avg': [0.296, 0.224, 0.31, 0.254, 0.23, 0.254], 
+        'hr': [5.4, 20.2, 8.6, 15.8, 22.2, 13], 
+        'sb': [25.6, 14.4, 12.8, 18.4, 7.2, 31.2], 
+        'defense': [43.7, 41.3, 64.7, 44.3, 61.7, 55.1], 
+        'rbi': [61.9, 77.5, 52.8, 82.7, 80.1, 22.9], 
+        'bb': [23.2, 26.8, 37.6, 22, 43.6, 43.6], 
+        'risp': [0.21, 0.234, 0.238, 0.302, 0.202, 0.25], 
+        'dp': [25.9, 6.3, 7, 16.1, 11.2, 8.4], 
+        'disabled': [14, 23.2, 8, 20, 24.4, 6.8], 
+        'age': [31, 40.5, 38, 39.5, 29.5, 41]
+    }
+    ten = {
+        'avg': [0.286, 0.288, 0.296, 0.232, 0.264, 0.23], 
+        'hr': [6.6, 15.4, 14.6, 19, 13, 19.8], 
+        'sb': [18.4, 26.4, 36, 5.6, 16.8, 35.2], 
+        'defense': [49.7, 54.5, 40.1, 43.1, 53.9, 39.5], 
+        'rbi': [59.3, 54.1, 68.4, 51.5, 73.6, 42.4], 
+        'bb': [14.8, 23.2, 22, 62.8, 29.2, 58], 
+        'risp': [0.214, 0.33, 0.21, 0.206, 0.166, 0.314], 
+        'dp': [35, 32.9, 3.5, 18.9, 16.1, 19.6], 
+        'disabled': [14, 23.2, 8, 20, 24.4, 6.8], 
+        'age': [31, 40.5, 38, 39.5, 29.5, 41]
+    }
+
     import random
     if request.method == "POST":
         # 6 profiles for each 4 situations
-        for i in range(24):
-            random_numbers = [random.randint(0, 49) for i in range(12)]
+        for i in range(6):
             player = Player(
-                avg=values["avg"][random_numbers[0]], 
-                hr=values["hr"][random_numbers[1]], 
-                sb=values["sb"][random_numbers[2]], 
-                defense=values["defense"][random_numbers[3]], 
-                rbi=values["rbi"][random_numbers[4]], 
-                bb=values["bb"][random_numbers[5]], 
-                risp=values["risp"][random_numbers[6]], 
-                dp=values["dp"][random_numbers[7]], 
-                disabled=values["disabled"][random_numbers[8]], 
-                age=values["age"][random_numbers[9]]
+                avg=four["avg"][i], 
+                hr=four["hr"][i], 
+                sb=four["sb"][i], 
+                defense=four["defense"][i], 
+                rbi=four["rbi"][i], 
+                bb=four["bb"][i], 
+                risp=four["risp"][i], 
+                dp=four["dp"][i], 
+                disabled=four["disabled"][i], 
+                age=four["age"][i]
             )
             player.save()
+        for i in range(6):
+            player = Player(
+                avg=six["avg"][i], 
+                hr=six["hr"][i], 
+                sb=six["sb"][i], 
+                defense=six["defense"][i], 
+                rbi=six["rbi"][i], 
+                bb=six["bb"][i], 
+                risp=six["risp"][i], 
+                dp=six["dp"][i], 
+                disabled=six["disabled"][i], 
+                age=six["age"][i]
+            )
+            player.save()
+        for i in range(6):
+            player = Player(
+                avg=eight["avg"][i], 
+                hr=eight["hr"][i], 
+                sb=eight["sb"][i], 
+                defense=eight["defense"][i], 
+                rbi=eight["rbi"][i], 
+                bb=eight["bb"][i], 
+                risp=eight["risp"][i], 
+                dp=eight["dp"][i], 
+                disabled=eight["disabled"][i], 
+                age=eight["age"][i]
+            )
+            player.save()
+        for i in range(6):
+            player = Player(
+                avg=ten["avg"][i], 
+                hr=ten["hr"][i], 
+                sb=ten["sb"][i], 
+                defense=ten["defense"][i], 
+                rbi=ten["rbi"][i], 
+                bb=ten["bb"][i], 
+                risp=ten["risp"][i], 
+                dp=ten["dp"][i], 
+                disabled=ten["disabled"][i], 
+                age=ten["age"][i]
+            )
+            player.save()
+
         return HttpResponseRedirect(reverse("choice:index"))
     
     return render(request, "choice/make.html", {})

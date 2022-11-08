@@ -1,0 +1,13 @@
+{% extends "choice/layout.html" %}
+{% block body %}
+
+    <h2>説明3</h2>
+    <div class="description-wrapper">
+        <p>45問もの一対比較にご回答頂き, 大変ありがとうございました. </p>
+        <p>最後に条件間一対比較を行って頂きます. </p>
+        <p>提示されている二つの条件について, <b>どちらがどれほど選びやすかったか(自信を持てたか, 迷いにくかったか)</b>選択して下さい. </p>
+        <p>4条件に関する全6通りの組み合わせについて, 回答をして下さい. </p>
+        <a href="{% url 'choice:preference'%}" class="btn btn-primary">条件間一対比較を行う</a>
+    </div>
+
+{% endblock %}

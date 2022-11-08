@@ -34,7 +34,18 @@ class Weight(models.Model):
 
     def __str__(self):
         return f"CI: {self.CI}"
+
+class Preference(models.Model):
+    four = models.FloatField()
+    six = models.FloatField()
+    eight = models.FloatField()
+    ten = models.FloatField()
+    CI = models.FloatField()
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name="preference")
     
+    def __str__(self):
+        return f"CI: {self.CI}"
+
 class Player(models.Model):
     avg = models.FloatField()
     hr = models.FloatField()

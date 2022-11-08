@@ -1,0 +1,114 @@
+{% extends "choice/layout.html" %}
+{% block body %}
+
+    <h2>条件間の一対比較</h2>
+
+    <form action="{% url 'choice:preference' %}" method="POST">
+        {% csrf_token %}
+        <div class="compare-wrapper">
+            <label for="1-1">4属性と6属性のどちらがより選びやすかった(自信を持てた, 迷いにくかった)ですか？</label>
+            <div class="compare-unit" id="1-1">
+                <select name="choice-1-1" class="form-select">
+                    <option value="1">4属性(打率, 本塁打, 盗塁数, 守備力)</option>
+                    <option value="-1">6属性(打率, 本塁打, 盗塁数, 守備力, 打点, 四球数)</option>
+                </select>
+                <select name="score-1-1" class="form-select">
+                    <option value=9>極めて選びやすかった(9点)</option>
+                    <option value=7>非常に選びやすかった(7点)</option>
+                    <option value=5>かなり選びやすかった(5点)</option>
+                    <option value=3>やや選びやすかった(3点)</option>
+                    <option value=1>同等に選びやすかった(1点)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="compare-wrapper">
+            <label for="1-2">4属性と8属性のどちらがより選びやすかった(自信を持てた, 迷いにくかった)ですか？</label>
+            <div class="compare-unit" id="1-2">
+                <select name="choice-1-2" class="form-select">
+                    <option value="1">4属性(打率, 本塁打, 盗塁数, 守備力)</option>
+                    <option value="-1">8属性(打率, 本塁打, 盗塁数, 守備力, 打点, 四球数, 得点圏打率, 併殺打数)</option>
+                </select>
+                <select name="score-1-2" class="form-select">
+                    <option value=9>極めて選びやすかった(9点)</option>
+                    <option value=7>非常に選びやすかった(7点)</option>
+                    <option value=5>かなり選びやすかった(5点)</option>
+                    <option value=3>やや選びやすかった(3点)</option>
+                    <option value=1>同等に選びやすかった(1点)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="compare-wrapper">
+            <label for="1-3">4属性と10属性のどちらがより選びやすかった(自信を持てた, 迷いにくかった)ですか？</label>
+            <div class="compare-unit" id="1-3">
+                <select name="choice-1-3" class="form-select">
+                    <option value="1">4属性(打率, 本塁打, 盗塁数, 守備力)</option>
+                    <option value="-1">10属性(打率, 本塁打, 盗塁数, 守備力, 打点, 四球数, 得点圏打率, 併殺打数, 離脱試合数, 年齢)</option>
+                </select>
+                <select name="score-1-3" class="form-select">
+                    <option value=9>極めて選びやすかった(9点)</option>
+                    <option value=7>非常に選びやすかった(7点)</option>
+                    <option value=5>かなり選びやすかった(5点)</option>
+                    <option value=3>やや選びやすかった(3点)</option>
+                    <option value=1>同等に選びやすかった(1点)</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="compare-wrapper">
+            <label for="2-1">6属性と8属性のどちらがより選びやすかった(自信を持てた, 迷いにくかった)ですか？</label>
+            <div class="compare-unit" id="2-1">
+                <select name="choice-2-1" class="form-select">
+                    <option value="1">6属性(打率, 本塁打, 盗塁数, 守備力, 打点, 四球数)</option>
+                    <option value="-1">8属性(打率, 本塁打, 盗塁数, 守備力, 打点, 四球数, 得点圏打率, 併殺打数)</option>
+                </select>
+                <select name="score-2-1" class="form-select">
+                    <option value=9>極めて選びやすかった(9点)</option>
+                    <option value=7>非常に選びやすかった(7点)</option>
+                    <option value=5>かなり選びやすかった(5点)</option>
+                    <option value=3>やや選びやすかった(3点)</option>
+                    <option value=1>同等に選びやすかった(1点)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="compare-wrapper">
+            <label for="2-2">6属性と10属性のどちらがより選びやすかった(自信を持てた, 迷いにくかった)ですか？</label>
+            <div class="compare-unit" id="2-2">
+                <select name="choice-2-2" class="form-select">
+                    <option value="1">6属性(打率, 本塁打, 盗塁数, 守備力, 打点, 四球数)</option>
+                    <option value="-1">10属性(打率, 本塁打, 盗塁数, 守備力, 打点, 四球数, 得点圏打率, 併殺打数, 離脱試合数, 年齢)</option>
+                </select>
+                <select name="score-2-2" class="form-select">
+                    <option value=9>極めて選びやすかった(9点)</option>
+                    <option value=7>非常に選びやすかった(7点)</option>
+                    <option value=5>かなり選びやすかった(5点)</option>
+                    <option value=3>やや選びやすかった(3点)</option>
+                    <option value=1>同等に選びやすかった(1点)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="compare-wrapper">
+            <label for="3-1">8属性と10属性のどちらがより選びやすかった(自信を持てた, 迷いにくかった)ですか？</label>
+            <div class="compare-unit" id="3-1">
+                <select name="choice-3-1" class="form-select">
+                    <option value="1">8属性(打率, 本塁打, 盗塁数, 守備力, 打点, 四球数, 得点圏打率, 併殺打数)</option>
+                    <option value="-1">10属性(打率, 本塁打, 盗塁数, 守備力, 打点, 四球数, 得点圏打率, 併殺打数, 離脱試合数, 年齢)</option>
+                </select>
+                <select name="score-3-1" class="form-select">
+                    <option value=9>極めて選びやすかった(9点)</option>
+                    <option value=7>非常に選びやすかった(7点)</option>
+                    <option value=5>かなり選びやすかった(5点)</option>
+                    <option value=3>やや選びやすかった(3点)</option>
+                    <option value=1>同等に選びやすかった(1点)</option>
+                </select>
+            </div>
+        </div>
+
+        <input type="submit" class="need-top-margin">
+    </form>
+
+{% endblock %}

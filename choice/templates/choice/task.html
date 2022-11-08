@@ -189,31 +189,33 @@
             <option value=3>やや優れている(3点)</option>
             <option value=1>同等に優れている(1点)</option>
         </select>
+        
+        <div style="display: none;">
+            <label for="ignore">無視した属性はありますか？ある場合のみ選択して下さい。(ctrlもしくはcmdを押しながらで複数選択できます)</label>
+            <select name="ignore-options" multiple id="ignore-options" class="form-select">
+                <option value="なし">なし</option>
+                <option value="打率">打率</option>
+                <option value="本塁打">本塁打</option>
+                <option value="盗塁数">盗塁数</option>
+                <option value="守備力">守備力</option>
 
-        <label for="ignore">無視した属性はありますか？ある場合のみ選択して下さい。(ctrlもしくはcmdを押しながらで複数選択できます)</label>
-        <select name="ignore-options" multiple id="ignore-options" class="form-select">
-            <option value="なし">なし</option>
-            <option value="打率">打率</option>
-            <option value="本塁打">本塁打</option>
-            <option value="盗塁数">盗塁数</option>
-            <option value="守備力">守備力</option>
+                {% if situation_index > 0 %}
+                <option value="打点">打点</option>
+                <option value="四球数">四球数</option>
+                {% endif %}
 
-            {% if situation_index > 0 %}
-            <option value="打点">打点</option>
-            <option value="四球数">四球数</option>
-            {% endif %}
+                {% if situation_index > 1 %}
+                <option value="得点圏打率">得点圏打率</option>
+                <option value="併殺打数">併殺打数</option>
+                {% endif %}
 
-            {% if situation_index > 1 %}
-            <option value="得点圏打率">得点圏打率</option>
-            <option value="併殺打数">併殺打数</option>
-            {% endif %}
+                {% if situation_index > 2 %}
+                <option value="離脱試合数">離脱試合数</option>
+                <option value="年齢">年齢</option>
+                {% endif %}
+            </select>
+        </div>
 
-            {% if situation_index > 2 %}
-            <option value="離脱試合数">離脱試合数</option>
-            <option value="年齢">年齢</option>
-            {% endif %}
-
-        </select>
         <input type="hidden" name="ignore" value="" id="ignore-text">
         <input type="submit" class="need-top-margin" id="submit-button" disabled>
     </form>
